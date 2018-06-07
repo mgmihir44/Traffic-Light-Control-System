@@ -1,1 +1,30 @@
 # Traffic-Light-Control-System
+
+Copyright - UT Austin, Jonathan Valvano, Daniel Valvano, Ramesh Yerraballi
+Date: January 15, 2016
+
+Lab 10 of UT Austin's course on edx.org taught by Dr. Jonatha Valvano and Dr. Ramesh Yerraballi.
+File provided: tm4c123gh6pm.h, startup.S
+
+Author: Mihir Garude
+Date: June 7th, 2018
+
+This is a simple system that miminc a traffic control system at an intersection. Apart from EnableInterrupts(),
+DisableInterrupts(), and TExaS_Init() all other functions and code is implemented. You are free
+to use the code as long as you mention the copyrights and my name as one of the authors.
+
+Assumption:
+- Two one way sections intersect each other at one junction, east/west and south/norht.
+- Senors(Switches in this Lab) are used to detect traffic from either direction.
+- There is additional pedestrian sensor(Switch) which is used for pedestrian crossing.
+
+Working:
+A Moore FSM is used for transition between different states. In the Initial State, Cars going in South/North
+direction are allowed to pass. Based on the input, the System will go to another state or will remain in the current state.
+The System will wait in a particular state for a predefined period. 
+
+Limitation:
+- The System in no interrupt driven.
+- The System does not use BIT specific addressing to Set and Clear Signals and get input from Switches.
+
+[Video](https://youtu.be/gMDjTUCRp6U)
