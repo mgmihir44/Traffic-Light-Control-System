@@ -21,7 +21,8 @@ Assumption:
 Working:
 A Moore FSM is used for transition between different states. In the Initial State, Cars going in South/North
 direction are allowed to pass. Based on the input, the System will go to another state or will remain in the current state.
-The System will wait in a particular state for a predefined period. 
+The System will wait in a particular state for a predefined period. The predefined delay is executed
+using the NVIC SysTick Timer
 Cars from only one direction can pass the intersection - either from North/South or East/West.
 Transition from Green to Redd follows the Pattern - Green - Yellow - Red.
 Whenever, the walk pedestrian light is Green, traffic from both directions will come to a halt.
