@@ -1,13 +1,13 @@
 # Traffic-Light-Control-System
 
-Copyright - UT Austin, Jonathan Valvano, Daniel Valvano, Ramesh Yerraballi
-Date: January 15, 2016
+- Copyright - UT Austin, Jonathan Valvano, Daniel Valvano, Ramesh Yerraballi
+- Date: January 15, 2016
 
 Lab 10 of UT Austin's course on edx.org taught by Dr. Jonatha Valvano and Dr. Ramesh Yerraballi.
 File provided: tm4c123gh6pm.h, startup.S
 
-Author: Mihir Garude
-Date: June 7th, 2018
+- Author: Mihir Garude
+- Date: June 7th, 2018
 
 This is a simple system that miminc a traffic control system at an intersection. Apart from EnableInterrupts(),
 DisableInterrupts(), and TExaS_Init() all other functions and code is implemented. You are free
@@ -28,6 +28,6 @@ Whenever, the walk pedestrian light is Green, traffic from both directions will 
 
 Limitation:
 - The System in no interrupt driven.
-- The System does not use BIT specific addressing to Set and Clear Signals and get input from Switches.
+- The System does not use BITs to Set and Clear Signals and get input from Switches, uses the entire Port.
 
 [Video](https://youtu.be/gMDjTUCRp6U)
