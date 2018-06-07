@@ -34,7 +34,7 @@ struct State{
 		unsigned long out;				/* Output Pattern for Car Signal LEDs */
 		unsigned long walk;				/* Output Pattern for Pedestrian Signal LEDs */
 		unsigned long time;				/* Default 10ms delay */
-  	unsigned long Next[9];		/* Next state based on value received from sensor(Switches) */
+  		unsigned long Next[9];				/* Next state based on value received from sensor(Switches) */
 };
 typedef const struct State SType;
 
@@ -61,20 +61,20 @@ SType FSM[9] ={
 	0x24, 0x00, 15, {GoW, GoS, GoW, GoW, GoP, GoS, GoW, GoW}
 };
 
-unsigned long S;					/* Index into the current state */
+unsigned long S;			/* Index into the current state */
 unsigned long input;			/* Input from Sensors */
 
 // FUNCTION PROTOTYPES: Each subroutine defined
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
-void Systick_Init(void);							/* Initialize the Systick Timer */
-//void PLL_Init(void);								/* Initialize the PLL */
-void PortB_Init(void);								/* Initialize Port B registers */
-void PortE_Init(void);								/* Initialize Port E registers */
-void PortF_Init(void);								/* Initialize Port F registers */
-void SysTick_Wait(unsigned long delay);			/* SysTick for Delay */
-void SysTick_wait10ms(unsigned long delay);	/* SysTick delay for 10ms */
-void Init_All(void);									/* Initializer function */
+void Systick_Init(void);					/* Initialize the Systick Timer */
+//void PLL_Init(void);						/* Initialize the PLL */
+void PortB_Init(void);						/* Initialize Port B registers */
+void PortE_Init(void);						/* Initialize Port E registers */
+void PortF_Init(void);						/* Initialize Port F registers */
+void SysTick_Wait(unsigned long delay);				/* SysTick for Delay */
+void SysTick_wait10ms(unsigned long delay);			/* SysTick delay for 10ms */
+void Init_All(void);						/* Initializer function */
 
 // ***** 3. Subroutines Section *****
 
@@ -83,13 +83,13 @@ int main(void){
  
   EnableInterrupts();
 	Init_All();						/* Initialize all Ports, SysTick and PLL */
-	S = GoW;							/* Initially the cars are going West */
+	S = GoW;						/* Initially the cars are going West */
   while(1){
-		GPIO_PORTB_DATA_R = FSM[S].out;				/* Display Car Signals based on current state*/
-		GPIO_PORTF_DATA_R = FSM[S].walk;			/* Display Pedestrian Signal based on cuurent state*/
-		SysTick_wait10ms(FSM[S].time);				/* Wait for some time in current state */
-		input = GPIO_PORTE_DATA_R;						/* Get input from sensors */
-		S = FSM[S].Next[input];								/* Change state based on input */
+		GPIO_PORTB_DATA_R = FSM[S].out;			/* Display Car Signals based on current state*/
+		GPIO_PORTF_DATA_R = FSM[S].walk;		/* Display Pedestrian Signal based on cuurent state*/
+		SysTick_wait10ms(FSM[S].time);			/* Wait for some time in current state */
+		input = GPIO_PORTE_DATA_R;			/* Get input from sensors */
+		S = FSM[S].Next[input];				/* Change state based on input */
   }
 }
 
@@ -113,15 +113,15 @@ void Init_All(void){
  */
 void PortB_Init(void){
 	volatile unsigned long delay;
-	SYSCTL_RCGC2_R |= 0x02;							/* Enable clock for Port B */
-	delay = SYSCTL_RCGC2_R;							/* Wait for the clock to become stable */
+	SYSCTL_RCGC2_R |= 0x02;				/* Enable clock for Port B */
+	delay = SYSCTL_RCGC2_R;				/* Wait for the clock to become stable */
 	GPIO_PORTB_LOCK_R |= 0x4C4F434B; 		/* Unlock Port B registers */
-	GPIO_PORTB_CR_R |= 0x3F;						/* Use Port B 5 - 0 for LED */
-	GPIO_PORTB_DIR_R |= 0x3F;						/* Output on Port B 5-0*/
+	GPIO_PORTB_CR_R |= 0x3F;			/* Use Port B 5 - 0 for LED */
+	GPIO_PORTB_DIR_R |= 0x3F;			/* Output on Port B 5-0*/
 	GPIO_PORTB_AFSEL_R &= ~(0x3F);			/* GPIO functionality of Port B 5-0*/
-	GPIO_PORTB_DEN_R |= 0x3F;						/* Enable digital functions for Port B 5-0*/
+	GPIO_PORTB_DEN_R |= 0x3F;			/* Enable digital functions for Port B 5-0*/
 	GPIO_PORTB_AMSEL_R &= ~(0x3F);			/* Disable Analog functionality for Port B 5-0*/
-	GPIO_PORTB_PCTL_R &= ~(0x000FFFFF);	/* Basic GPIO functionality for Port B 5-0*/
+	GPIO_PORTB_PCTL_R &= ~(0x000FFFFF);		/* Basic GPIO functionality for Port B 5-0*/
 }
 
 /*
@@ -131,15 +131,15 @@ void PortB_Init(void){
  */
 void PortE_Init(void){
 	volatile unsigned long delay;
-	SYSCTL_RCGC2_R |= 0x10;							/* Enable clock for Port E */
-	delay = SYSCTL_RCGC2_R;							/* Wait for the clock to become stable */
+	SYSCTL_RCGC2_R |= 0x10;				/* Enable clock for Port E */
+	delay = SYSCTL_RCGC2_R;				/* Wait for the clock to become stable */
 	GPIO_PORTE_LOCK_R |= 0x4C4F434B; 		/* Unlock Port E registers */
-	GPIO_PORTE_CR_R |= 0x07;						/* Use Port E 2 - 0 for LED */
-	GPIO_PORTE_DIR_R &= ~(0x07);				/* Use Port E 2-0 for inputs */
+	GPIO_PORTE_CR_R |= 0x07;			/* Use Port E 2 - 0 for LED */
+	GPIO_PORTE_DIR_R &= ~(0x07);			/* Use Port E 2-0 for inputs */
 	GPIO_PORTE_AFSEL_R &= ~(0x07);			/* Disable alternate function for Port E 2-0 */
-	GPIO_PORTE_DEN_R |= 0x07;						/* Enable digital functions for Port E 2-0 */
+	GPIO_PORTE_DEN_R |= 0x07;			/* Enable digital functions for Port E 2-0 */
 	GPIO_PORTE_AMSEL_R &= ~(0x07);			/* Disable analog function on Port E 2-0 */
-	GPIO_PORTE_PCTL_R &= ~(0x00000FFF);	/* Basic GPIO functionality for Port E 2-0 */
+	GPIO_PORTE_PCTL_R &= ~(0x00000FFF);		/* Basic GPIO functionality for Port E 2-0 */
 }
 
 /*
@@ -149,15 +149,15 @@ void PortE_Init(void){
  */
 void PortF_Init(void){
 	volatile unsigned long delay;
-	SYSCTL_RCGC2_R |= 0x00000020;				/* Enable clock for Port F */
-	delay = SYSCTL_RCGC2_R;							/* Wait for the clock to become stable */
+	SYSCTL_RCGC2_R |= 0x00000020;			/* Enable clock for Port F */
+	delay = SYSCTL_RCGC2_R;				/* Wait for the clock to become stable */
 	GPIO_PORTF_LOCK_R |= 0x4C4F434B; 		/* Unlock Port F registers */
-	GPIO_PORTF_CR_R |= 0x0A;						/* Use Port F 3 and Port F 1 for LED */
-	GPIO_PORTF_DIR_R |= 0x0A;						/* Use Port F 3 and Port F 1 as output */
+	GPIO_PORTF_CR_R |= 0x0A;			/* Use Port F 3 and Port F 1 for LED */
+	GPIO_PORTF_DIR_R |= 0x0A;			/* Use Port F 3 and Port F 1 as output */
 	GPIO_PORTF_AFSEL_R &= ~(0x0A);			/* Disable alternate functionality on PF3 and PF1 */
-	GPIO_PORTF_DEN_R |= 0x0A;						/* Enable digital functions on PF3 and PF1 */
+	GPIO_PORTF_DEN_R |= 0x0A;			/* Enable digital functions on PF3 and PF1 */
 	GPIO_PORTF_AMSEL_R &= ~(0x0A); 			/* Disable analog functionality on PF3 and PF1 */
-	GPIO_PORTE_PCTL_R &= ~(0x0000F0F0);	/* Basic GPIO functionality for PF3 and PF1 */
+	GPIO_PORTE_PCTL_R &= ~(0x0000F0F0);		/* Basic GPIO functionality for PF3 and PF1 */
 }
 
 /*
@@ -166,7 +166,7 @@ void PortF_Init(void){
  * Outputs: None
  */
 void Systick_Init(void){
-	NVIC_ST_CTRL_R = 0;							/* Disable SysTick Timer during initialization */
+	NVIC_ST_CTRL_R = 0;			/* Disable SysTick Timer during initialization */
 	NVIC_ST_CTRL_R = 0x00000005;		/* Enable SysTick using System Clock */
 }
 
@@ -178,8 +178,8 @@ void Systick_Init(void){
  * Outputs: None
  */
 void SysTick_Wait(unsigned long delay){
-	NVIC_ST_RELOAD_R = delay - 1; 						/* number of counts to wait */
-	NVIC_ST_CURRENT_R = 0;										/* clear the current register, writing any value will clear it */
+	NVIC_ST_RELOAD_R = delay - 1; 			/* number of counts to wait */
+	NVIC_ST_CURRENT_R = 0;				/* clear the current register, writing any value will clear it */
 	while((NVIC_ST_CTRL_R&0x00010000) == 0){}	/* Wait till count bit becomes 1 */
 }
 
@@ -191,7 +191,7 @@ void SysTick_Wait(unsigned long delay){
 void SysTick_wait10ms(unsigned long delay){
 	unsigned long i;
 	for(i = 0; i < delay; i++){
-		SysTick_Wait(800000);										/* Delay of 10ms */
+		SysTick_Wait(800000);			/* Delay of 10ms */
 	}
 }
 
