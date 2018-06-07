@@ -10,7 +10,7 @@ File provided: tm4c123gh6pm.h, startup.S
 - Date: June 7th, 2018
 
 This is a simple system that miminc a traffic control system at an intersection. Apart from EnableInterrupts(),
-DisableInterrupts(), and TExaS_Init() all other functions and code is implemented. You are free
+DisableInterrupts(), and TExaS_Init() all other functions and code is implemented by me. You are free
 to use the code as long as you mention the copyrights and my name as one of the authors.
 
 Assumption:
